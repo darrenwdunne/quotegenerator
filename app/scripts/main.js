@@ -1,5 +1,3 @@
-var jqxhr;
-
 $(document).ready(function() {
   console.log('jquery ready');
   // setQuoteAuthor("No Author");
@@ -21,23 +19,31 @@ function newQuote() {
   fetchQuoteRemote();
 }
 
+function newQuote() {
+  // can't make remote calls in CodePen
+  fetchQuoteRemote();
+  // fetchQuoteInline();
+}
+
 function fetchQuoteInline() {
   var quotes = [{
-    quote: 'quote1',
-    author: 'author1'
+    quote: 'Chuck Norris programs occupy 150% of CPU, even when they are not executing.',
+    author: 'Chuck Norris'
   }, {
-    quote: 'quote2',
-    author: 'author2'
+    quote: 'Chuck Norris writes code that optimizes itself.',
+    author: 'Chuck Norris'
   }, {
-    quote: 'quote3',
-    author: 'author3'
+    quote: 'Chuck Norris is the only man to ever defeat a brick wall in a game of tennis.',
+    author: 'Chuck Norris'
   }, {
-    quote: 'quote4',
-    author: 'author4'
+    quote: 'Chuck Norris\'s log statements are always at the FATAL level.',
+    author: 'Chuck Norris'
   }];
-  var r = Math.floor(Math.random() * (quotes.length + 1));
-  return (quotes[r]);
+  var r = Math.floor(Math.random() * (quotes.length));
+  setQuoteText(quotes[r].quote);
+  setQuoteAuthor(quotes[r].author);
 }
+
 
 function fetchQuoteRemote() {
   $.get('http://api.icndb.com/jokes/random?exclude=[explicit]').done(function(data) {
