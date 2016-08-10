@@ -16,10 +16,6 @@ function setQuoteText(text) {
 }
 
 function newQuote() {
-  fetchQuoteRemote();
-}
-
-function newQuote() {
   // can't make remote calls in CodePen
   fetchQuoteRemote();
   // fetchQuoteInline();
@@ -47,12 +43,14 @@ function fetchQuoteInline() {
 
 function fetchQuoteRemote() {
   $.get('http://api.icndb.com/jokes/random?exclude=[explicit]').done(function(data) {
-    // setQuoteAuthor(j.author);
-    // setQuoteText(j.quote);
     if (data.type === 'success') {
       setQuoteText(data.value.joke);
       setQuoteAuthor('Chuck Norris');
+    } else {
+      fetchQuoteInline();
     }
+  }).fail(function(jqXHR, textStatus, errorThrown) { 
+    fetchQuoteInline();
   });
 }
 
@@ -61,6 +59,7 @@ function fetchQuoteRemote() {
 function getChuckNorrisQuoteTwoSteps() {
 
   var num = 0;
+  var quoteText = '';
   $.get('http://api.icndb.com/jokes/count').done(function(data) {
     //    debugger;
     if (data.type === 'success') {
@@ -69,7 +68,7 @@ function getChuckNorrisQuoteTwoSteps() {
         var rand = Math.floor(Math.random() * (num + 1));
         $.get('http://api.icndb.com/jokes/' + rand).done(function(data) {
           if (data.type === 'success') {
-            setQuoteText(data.value.joke);
+            quoteText = data.value.joke;
             setQuoteAuthor('Chuck Norris');
           }
         });
